@@ -1,0 +1,29 @@
+name: Deploy Helm Chart
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: 'v3.9.0' # Specify the Helm version you want to use
+
+      - name: Package Helm charts
+        run: |
+          helm package ./charts/uptime-kuma -d ./charts
+
+      - name: Publish Helm charts to GitHub Package Registry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          helm registry login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+          helm push ./charts/uptime-kuma-*.tgz oci://ghcr.io/${{ github.repository }}/charts
