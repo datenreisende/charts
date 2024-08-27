@@ -31,7 +31,7 @@ jobs:
       - name: Publish Helm charts to GitHub Package Registry
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          REGISTRY_SECRET: ${{ secrets.REGISTRY_SECRET }}
         run: |
-          echo ${{ vars.ACTION_TOKEN }} | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
+          echo $REGISTRY_SECRET | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
           helm push charts/uptime-kuma-*.tgz oci://ghcr.io/datenreisende/charts/
