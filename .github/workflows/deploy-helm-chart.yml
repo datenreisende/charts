@@ -33,5 +33,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo $GITHUB_TOKEN
-          echo $GITHUB_TOKEN | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
+          echo $ACTION_TOKEN | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
           helm push charts/uptime-kuma-*.tgz oci://ghcr.io/datenreisende/charts/
