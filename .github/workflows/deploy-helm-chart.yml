@@ -34,5 +34,6 @@ jobs:
 
         run: |
           echo ${{ env.ACTION_TOKEN }}
+          echo ${{ vars.ACTION_TOKEN }}
           echo ${{ env.ACTION_TOKEN }} | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
           helm push charts/uptime-kuma-*.tgz oci://ghcr.io/datenreisende/charts/
