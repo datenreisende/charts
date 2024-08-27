@@ -1,6 +1,8 @@
 apiVersion: v2
 name: uptime-kuma
 description: A Helm chart for Kubernetes
+home: https://datenreisende.github.io/charts/uptime-kuma/
+icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg
 type: application
 version: 0.1.0
 appVersion: "1.23.13"
