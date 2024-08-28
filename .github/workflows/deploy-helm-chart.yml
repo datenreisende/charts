@@ -35,3 +35,24 @@ jobs:
         run: |
           echo $REGISTRY_SECRET | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
           helm push charts/uptime-kuma-*.tgz oci://ghcr.io/datenreisende/charts/
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "uptime-kuma-{{ steps.package.outputs.version }}"
+          release_name: "Uptime Kuma Helm Chart - v{{ steps.package.outputs.version }}"
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./charts/uptime-kuma-*.tgz
+          asset_name: uptime-kuma-{{ steps.package.outputs.version }}.tgz
+          asset_content_type: application/gzip
