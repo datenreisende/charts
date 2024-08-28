@@ -24,6 +24,10 @@ jobs:
         with:
           version: 'v3.9.0'
 
+      - name: Get Chart Version
+        id: chart_version
+        run: echo "::set-output name=version::$(helm show chart ./charts/uptime-kuma | grep '^version:' | cut -d' ' -f2)"
+
       - name: Package Helm charts
         run: |
           helm package ./charts/uptime-kuma -d ./charts
@@ -36,14 +40,19 @@ jobs:
           echo $REGISTRY_SECRET | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
           helm push charts/uptime-kuma-*.tgz oci://ghcr.io/datenreisende/charts/
 
+      - name: Create Git Tag
+        run: |
+          git tag "v${{ steps.chart_version.outputs.version }}"
+          git push origin "v${{ steps.chart_version.outputs.version }}"
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "uptime-kuma-{{ steps.package.outputs.version }}"
-          release_name: "Uptime Kuma Helm Chart - v{{ steps.package.outputs.version }}"
+          tag_name: "v${{ steps.chart_version.outputs.version }}"
+          release_name: "Uptime Kuma Helm Chart - v${{ steps.chart_version.outputs.version }}"
           draft: false
           prerelease: false
 
@@ -54,5 +63,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./charts/uptime-kuma-*.tgz
-          asset_name: uptime-kuma-{{ steps.package.outputs.version }}.tgz
+          asset_name: uptime-kuma-${{ steps.chart_version.outputs.version }}.tgz
           asset_content_type: application/gzip
