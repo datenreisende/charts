@@ -77,4 +77,4 @@ jobs:
         with:
           config: .github/configs/cr.yaml
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: "${{ secrets.REGISTRY_SECRET }}"
