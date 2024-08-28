@@ -7,7 +7,7 @@
 # Path to the directory containing the charts
 CHART_DIR="./charts"
 # Base URL to the repository where the charts are hosted
-BASE_URL="https://datenreisende.github.io/charts/"
+BASE_URL="https://datenreisende.github.io/charts/charts/"
 # Output file
 OUTPUT_FILE="index.yaml"
 
