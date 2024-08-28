@@ -27,20 +27,26 @@ jobs:
       - name: Identify Changed Charts
         id: changed_charts
         run: |
-          # Find all charts that have changed since the last commit to main
-          CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | grep 'charts/' | cut -d '/' -f2 | uniq)
+          # Check if there is a previous commit
+          if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            CHANGED_DIRS=$(git diff --name-only HEAD^ HEAD | grep 'charts/' | cut -d '/' -f2 | uniq)
+          else
+            # If no previous commit, consider all charts as changed
+            CHANGED_DIRS=$(ls charts)
+          fi
           echo "Changed charts: $CHANGED_DIRS"
-          echo "::set-output name=changed_dirs::$CHANGED_DIRS"
+          echo "CHANGED_DIRS=$CHANGED_DIRS" >> $GITHUB_ENV  # Use Environment Files
 
       - name: Package and Publish Helm charts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REGISTRY_SECRET: ${{ secrets.REGISTRY_SECRET }}
+          CHANGED_DIRS: ${{ env.CHANGED_DIRS }}
         run: |
-          for chart in ${{ steps.changed_charts.outputs.changed_dirs }}; do
+          for chart in $CHANGED_DIRS; do
             echo "Packaging and pushing $chart..."
             helm package ./charts/$chart -d ./charts
             echo $REGISTRY_SECRET | helm registry login ghcr.io --username ${{ github.actor }} --password-stdin
             helm push ./charts/${chart}-*.tgz oci://ghcr.io/datenreisende/charts/
           done
-        if: ${{ steps.changed_charts.outputs.changed_dirs != '' }}
+        if: env.CHANGED_DIRS != ''
