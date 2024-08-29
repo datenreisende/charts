@@ -92,7 +92,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          
+
       - name: Generate Helm Charts Table
         run: |
           echo "| Chart Name | Version |" > charts-table.txt
@@ -103,10 +103,15 @@ jobs:
             echo "| $chart_name | $chart_version |" >> charts-table.txt
           done
 
-      - name: Append Table to README
+      - name: Insert Table into README
         run: |
-          echo "\n## Available Charts\n" >> README.md
-          cat charts-table.txt >> README.md
+          # Create the header for the charts section
+          echo "## Available Helm Charts" > charts-section.txt
+          echo "" >> charts-section.txt
+          cat charts-table.txt >> charts-section.txt
+          
+          # Insert the charts section before the "How to Add This Repository" section
+          awk '/## How to Add This Repository/{flag=1; if(!flag2){print ""; system("cat charts-section.txt"); flag2=1}} 1' README.md > README.tmp && mv README.tmp README.md
 
       - name: Commit changes
         run: |
