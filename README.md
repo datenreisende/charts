@@ -3,23 +3,47 @@
 Welcome to the official Helm Chart repository for **Datenreisende**! This repository contains a collection of Helm charts that I use in my HomeLab. These charts are designed to simplify the deployment of various services and applications.
 
 ## How to Add This Repository
+To add this Helm repository to your local Helm client, you have two options:
 
-To add this Helm repository to your local Helm client, run the following command:
+### Option 1: Add via Helm Repository
+
+You can add the repository using the traditional Helm repository method by running the following command:
 
 ```bash
 helm repo add datenreisende https://datenreisende.github.io/charts
 ```
 
-After adding the repository, you can update your local Helm repo cache:
+After adding the repository, update your local Helm repo cache:
 ```bash
 helm repo update
 ```
-## Installing Charts
-Once you’ve added the repository, you can install any of the available charts. For example, to install the my-chart chart:
+
+### Option 2: OCI Support
+
+Alternatively, if you prefer using OCI (Open Container Initiative), you can pull charts from the OCI registry:
 ```bash
-helm install my-release datenreisende-charts/my-chart
+oci://ghcr.io/datenreisende/charts/<CHART NAME>
+```
+Both methods are supported, and you can choose the one that best fits your needs.
+
+## Installing Charts
+Installing Charts
+
+Once you’ve added the repository or chosen the OCI method, you can install any of the available charts.
+
+For example, to install the my-chart chart using the traditional Helm repository method:
+
+```bash
+helm install my-release datenreisende/my-chart
 ```
 Replace my-release with the name you want to give your release, and my-chart with the chart you want to install.
+
+If you’re using the OCI method, you can install a chart as follows:
+
+```bash
+helm install my-release oci://ghcr.io/datenreisende/charts/my-chart
+```
+Again, replace my-release with the name you want to give your release, and my-chart with the chart you want to install.
 
 ## Contributing
 
