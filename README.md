@@ -52,7 +52,4 @@ If you would like to contribute to this repository, feel free to submit a pull r
 ## License
 
 This repository is licensed under the MIT License. See the LICENSE file for more details.
-\n## Available Charts\n
-| Chart Name | Version |
-|------------|---------|
-| uptime-kuma | 0.1.6 |
+
