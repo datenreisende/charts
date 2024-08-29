@@ -73,12 +73,17 @@ resources: {}
 
 livenessProbe:
   httpGet:
-    path: /
+    path: /manifest.json
     port: http
 readinessProbe:
   httpGet:
-    path: /
+    path: /manifest.json
     port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
 
 autoscaling:
   enabled: false
