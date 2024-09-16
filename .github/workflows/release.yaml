@@ -70,7 +70,7 @@ jobs:
         uses: azure/setup-helm@v3.5
         with:
           version: v3.9.0
-          
+
       # Publish charts to gh-pages branch
       - name: Publish charts to GitHub Pages
         uses: helm/chart-releaser-action@v1.5.0
@@ -78,3 +78,43 @@ jobs:
           config: .github/configs/cr.yaml
         env:
           CR_TOKEN: "${{ secrets.REGISTRY_SECRET }}"
+
+  update-readme:
+    runs-on: ubuntu-latest
+    needs: release-ghcr
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Generate Helm Charts Table
+        run: |
+          echo "| Chart Name | Version |" > charts-table.txt
+          echo "|------------|---------|" >> charts-table.txt
+          for d in charts/* ; do
+            chart_name=$(basename "$d")
+            chart_version=$(helm show chart "$d" | grep '^version:' | awk '{print $2}')
+            echo "| $chart_name | $chart_version |" >> charts-table.txt
+          done
+
+      - name: Insert Table into README
+        run: |
+          # Create the header for the charts section
+          echo "## Available Helm Charts" > charts-section.txt
+          echo "" >> charts-section.txt
+          cat charts-table.txt >> charts-section.txt
+          
+          # Insert the charts section before the "How to Add This Repository" section
+          awk '/## How to Add This Repository/{flag=1; if(!flag2){print ""; system("cat charts-section.txt"); flag2=1}} 1' README.md > README.tmp && mv README.tmp README.md
+
+      - name: Commit changes
+        run: |
+          git add README.md
+          git commit -m "docs: update README with Helm charts table"
+          git push

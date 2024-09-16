@@ -1,0 +1,14 @@
+{{- define "helmlet.service" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "helmlet.fullname" . }}
+  labels:
+    {{- include "helmlet.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    {{- toYaml .Values.service.ports | nindent 4 }}
+  selector:
+    {{- include "helmlet.selectorLabels" . | nindent 4 }}
+{{- end -}}
