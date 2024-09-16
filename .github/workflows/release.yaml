@@ -88,19 +88,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git
+      - name: Remove existing Helm Charts Table
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          # Remove the existing table by deleting lines between "## Available Helm Charts" and the next section
+          awk '/## Available Helm Charts/{flag=1} /## /{flag=0} !flag' README.md > README.tmp && mv README.tmp README.md
 
       - name: Generate Helm Charts Table
         run: |
-          echo "| Chart Name | Version |" > charts-table.txt
-          echo "|------------|---------|" >> charts-table.txt
+          echo "| Chart Name | Version | Type |" > charts-table.txt
+          echo "|------------|---------|------|" >> charts-table.txt
           for d in charts/* ; do
             chart_name=$(basename "$d")
             chart_version=$(helm show chart "$d" | grep '^version:' | awk '{print $2}')
-            echo "| $chart_name | $chart_version |" >> charts-table.txt
+            chart_type=$(helm show chart "$d" | grep '^type:' | awk '{print $2}')
+            if [ -z "$chart_type" ]; then
+              chart_type="Application" # Default type if not specified
+            fi
+            echo "| $chart_name | $chart_version | $chart_type |" >> charts-table.txt
           done
 
       - name: Insert Table into README
@@ -116,5 +120,5 @@ jobs:
       - name: Commit changes
         run: |
           git add README.md
-          git commit -m "docs: update README with Helm charts table"
+          git commit -m "docs: update README with Helm charts table including chart type"
           git push
