@@ -1,0 +1,95 @@
+# Default values for the Helm Library Chart
+
+replicaCount: 1
+
+# Image configuration
+image:
+  repository: nginx
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  protocol: TCP
+  annotations: {}
+
+# Ingress configuration
+ingress:
+  enabled: false
+  ingressClassName: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: Prefix
+          port: 80
+  tls: []
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+# Probes for container health checks
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 3
+
+# Resource requests and limits
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# PVC configuration
+persistence:
+  enabled: false
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  storageClassName: "standard"
+
+# Node affinity and tolerations
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Pod security context
+podSecurityContext:
+  enabled: true
+  fsGroup: 2000
+
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1000
+
+# ServiceAccount configuration
+serviceAccount:
+  create: true
+  name: ""
+  automountToken: true
+
+# ConfigMap data
+configMap:
+  data: {}

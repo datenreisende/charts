@@ -1,0 +1,45 @@
+{{- define "helmlet.app" -}}
+{{- if .Values.configMap.data }}
+{{ include "helmlet.configmap" . }}
+{{- end }}
+
+{{- if .Values.secret.data }}
+{{ include "helmlet.secret" . }}
+{{- end }}
+
+{{- if .Values.image.repository }}
+{{ include "helmlet.deployment" . }}
+{{- end }}
+
+{{- if .Values.ingress.enabled }}
+{{ include "helmlet.ingress" . }}
+{{- end }}
+
+{{- if .Values.service.enabled }}
+{{ include "helmlet.service" . }}
+{{- end }}
+
+{{- if .Values.serviceAccount.create }}
+{{ include "helmlet.serviceaccount" . }}
+{{- end }}
+
+{{- if .Values.persistentVolumeClaim.enabled }}
+{{ include "helmlet.pvc" . }}
+{{- end }}
+
+{{- if .Values.tls.secrets }}
+{{ include "helmlet.tls.secrets" . }}
+{{- end }}
+
+{{- if .Values.tls.selfsigned }}
+{{ include "helmlet.tls.selfsigned" . }}
+{{- end }}
+
+{{- if .Values.serviceMonitor.enabled }}
+{{ include "helmlet.servicemonitor" . }}
+{{- end }}
+
+{{- if .Values.podMonitor.enabled }}
+{{ include "helmlet.podmonitor" . }}
+{{- end }}
+{{- end -}}
