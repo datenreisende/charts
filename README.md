@@ -8,6 +8,13 @@ Welcome to the official Helm Chart repository for **Datenreisende**! This reposi
 |------------|---------|
 | helmlet | 0.1.0 |
 | uptime-kuma | 0.1.6 |
+
+## Available Helm Charts
+
+| Chart Name | Version |
+|------------|---------|
+| helmlet | 0.1.0 |
+| uptime-kuma | 0.1.6 |
 ## How to Add This Repository
 To add this Helm repository to your local Helm client, you have two options:
 
