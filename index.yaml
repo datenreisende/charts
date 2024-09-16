@@ -3,6 +3,26 @@ entries:
   helmlet:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2024-09-16T10:26:35.83165004Z"
+    description: A Helm Library Chart for Kubernetes deployments
+    digest: e71a2c3570bc2a85887a20d567446f6753dec2fe3bc73e5156c6dbffdbae10ef
+    home: https://datenreisende.github.io/charts/helmlet/
+    keywords:
+    - deployment
+    - service
+    - ingress
+    - library
+    maintainers:
+    - name: Ole Kleinschmidt
+    name: helmlet
+    sources:
+    - https://datenreisende.github.io/charts/helmlet/
+    type: library
+    urls:
+    - https://github.com/datenreisende/charts/releases/download/helmlet-0.1.2/helmlet-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2024-09-16T08:28:09.582306086Z"
     description: A Helm Library Chart for Kubernetes deployments
     digest: 2be6f1c006443df7e68ee7ca6986e55943c818931d4e99c279496e30b03c7120
@@ -113,4 +133,4 @@ entries:
     urls:
     - https://github.com/datenreisende/charts/releases/download/uptime-kuma-0.1.1/uptime-kuma-0.1.1.tgz
     version: 0.1.1
-generated: "2024-09-16T08:28:09.582330662Z"
+generated: "2024-09-16T10:26:35.831678583Z"
