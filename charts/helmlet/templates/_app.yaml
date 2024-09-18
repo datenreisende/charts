@@ -7,6 +7,10 @@
 {{ include "helmlet.deployment" . }}
 {{- end }}
 
+{{- if .Values.persistence.enabled }}
+{{ include "helmlet.pvc" . }}
+{{- end }}
+
 {{ include "helmlet.hpa" . }}
 {{ include "helmlet.ingress" . }}
 
@@ -14,9 +18,7 @@
 {{ include "helmlet.secret" . }}
 {{- end }}
 
-{{- if and .Values.ports .Values.service.ports }}
 {{ include "helmlet.service" . }}
-{{- end }}
 
 {{ include "helmlet.serviceaccount" . }}
 {{ include "helmlet.servicemonitor" . }}
