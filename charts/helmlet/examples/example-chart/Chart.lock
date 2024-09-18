@@ -1,6 +1,0 @@
-dependencies:
-- name: helmlet
-  repository: file://../../
-  version: 0.1.4
-digest: sha256:9c68e80f981b2c5ad727d1ebc28602ca7ab11052fbb907cbb401e58992784f61
-generated: "2024-09-18T14:50:44.229995+02:00"
