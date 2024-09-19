@@ -246,16 +246,6 @@ serviceMonitor: {}
 #       scrapeTimeout: 10s
 podMonitor: {}
 
-# Enable autoscaling
-# Configure horizontal pod autoscaling for the deployment.
-# ref: http://kubernetes.io/docs/user-guide/horizontal-pod-autoscaling/
-# ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 2
-  targetCPUUtilizationPercentage: 80
-
 # Enable persistence using Persistent Volume Claims
 # If enabled, a persistent volume claim (PVC) is created to persist data.
 # ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
