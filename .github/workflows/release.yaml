@@ -28,6 +28,13 @@ jobs:
         with:
           version: v3.9.0
 
+      # Update dependencies for all charts
+      - name: Update Chart Dependencies
+        run: |
+          for d in charts/* ; do
+            helm dependency update "$d"
+          done
+
       # Publish OCI charts to ghcr.io
       - name: Generate charts
         run: |
@@ -70,6 +77,13 @@ jobs:
         uses: azure/setup-helm@v3.5
         with:
           version: v3.9.0
+
+      # Update dependencies for all charts
+      - name: Update Chart Dependencies
+        run: |
+          for d in charts/* ; do
+            helm dependency update "$d"
+          done
 
       # Publish charts to gh-pages branch
       - name: Publish charts to GitHub Pages
