@@ -7,7 +7,7 @@ Welcome to the official Helm Chart repository for **Datenreisende**! This reposi
 
 | Chart Name | Version | Type |
 |------------|---------|------|
-| uptime-kuma | 0.1.7 | application |
+| uptime-kuma | 0.1.8 | application |
 ## How to Add This Repository
 To add this Helm repository to your local Helm client, you have two options:
 
