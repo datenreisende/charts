@@ -140,3 +140,10 @@ jobs:
           git add README.md
           git commit -m "docs: update README with Helm charts table including chart type"
           git push
+
+      - name: Merge main to gh-pages
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          git merge origin/main --no-edit
+          git push origin gh-pages
