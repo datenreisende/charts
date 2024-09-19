@@ -28,14 +28,21 @@ jobs:
         with:
           version: v3.9.0
 
-      # Update dependencies for all charts
-      - name: Update Chart Dependencies
+      # Update dependencies for helmlet chart first
+      - name: Update helmlet Chart Dependencies
+        run: |
+          helm dependency update charts/helmlet
+
+      # Update dependencies for all other charts
+      - name: Update All Other Chart Dependencies
         run: |
           for d in charts/* ; do
-            helm dependency update "$d"
+            if [[ "$d" != "charts/helmlet" ]]; then
+              helm dependency update "$d"
+            fi
           done
 
-      # Publish OCI charts to ghcr.io
+      # Package all charts
       - name: Generate charts
         run: |
           mkdir -p .cr-release-packages
@@ -78,11 +85,18 @@ jobs:
         with:
           version: v3.9.0
 
-      # Update dependencies for all charts
-      - name: Update Chart Dependencies
+      # Update dependencies for helmlet chart first
+      - name: Update helmlet Chart Dependencies
+        run: |
+          helm dependency update charts/helmlet
+
+      # Update dependencies for all other charts
+      - name: Update All Other Chart Dependencies
         run: |
           for d in charts/* ; do
-            helm dependency update "$d"
+            if [[ "$d" != "charts/helmlet" ]]; then
+              helm dependency update "$d"
+            fi
           done
 
       # Publish charts to gh-pages branch
