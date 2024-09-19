@@ -6,8 +6,8 @@ on:
       - main
 
 permissions:
-  contents: write
-  packages: write
+  contents: write # publish chart to gh-pages branch
+  packages: write # publish chart to ghcr.io
 
 jobs:
   release-helmlet:
@@ -37,6 +37,7 @@ jobs:
         run: |
           helm dependency update charts/helmlet
 
+      # Package and publish helmlet chart to GHCR
       - name: Package helmlet Chart
         run: |
           mkdir -p .cr-release-packages
@@ -52,6 +53,14 @@ jobs:
       - name: Publish helmlet Chart to GHCR
         run: |
           helm push .cr-release-packages/helmlet-*.tgz oci://ghcr.io/datenreisende/charts
+
+      # Update gh-pages branch with helmlet chart
+      - name: Publish helmlet Chart to GitHub Pages
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          config: .github/configs/cr.yaml
+        env:
+          CR_TOKEN: "${{ secrets.REGISTRY_SECRET }}"
 
   release-other-charts:
     runs-on: ubuntu-latest
@@ -176,7 +185,7 @@ jobs:
             chart_version=$(helm show chart "$d" | grep '^version:' | awk '{print $2}')
             chart_type=$(helm show chart "$d" | grep '^type:' | awk '{print $2}')
             if [ -z "$chart_type" ]; then
-              chart_type="Application" # Default type if not specified
+              chart_type="Application"
             fi
             echo "| $chart_name | $chart_version | $chart_type |" >> charts-table.txt
           done
