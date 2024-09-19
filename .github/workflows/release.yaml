@@ -6,8 +6,8 @@ on:
       - main
 
 permissions:
-  contents: write # publish chart to gh-pages branch
-  packages: write # publish chart to ghcr.io
+  contents: write
+  packages: write
 
 jobs:
   release-helmlet:
@@ -28,12 +28,15 @@ jobs:
         with:
           version: v3.9.0
 
-      # Update dependencies for helmlet chart
+      - name: Update Helm Repository and Cache
+        run: |
+          helm repo add datenreisende https://datenreisende.github.io/charts/
+          helm repo update
+
       - name: Update helmlet Chart Dependencies
         run: |
           helm dependency update charts/helmlet
 
-      # Package and publish helmlet chart to GHCR
       - name: Package helmlet Chart
         run: |
           mkdir -p .cr-release-packages
@@ -68,6 +71,11 @@ jobs:
         uses: azure/setup-helm@v3.5
         with:
           version: v3.9.0
+
+      - name: Update Helm Repository and Cache
+        run: |
+          helm repo add datenreisende https://datenreisende.github.io/charts/
+          helm repo update
 
       # Update dependencies for all other charts
       - name: Update All Other Chart Dependencies
@@ -122,8 +130,12 @@ jobs:
         with:
           version: v3.9.0
 
-      # Update dependencies for all charts (including helmlet)
-      - name: Update Chart Dependencies
+      - name: Update Helm Repository and Cache
+        run: |
+          helm repo add datenreisende https://datenreisende.github.io/charts/
+          helm repo update
+
+      - name: Update Chart Dependencies for All Charts
         run: |
           for d in charts/* ; do
             helm dependency update "$d"
@@ -153,7 +165,6 @@ jobs:
 
       - name: Remove existing Helm Charts Table
         run: |
-          # Remove the existing table by deleting lines between "## Available Helm Charts" and the next section
           awk '/## Available Helm Charts/{flag=1} /## /{flag=0} !flag' README.md > README.tmp && mv README.tmp README.md
 
       - name: Generate Helm Charts Table
@@ -172,12 +183,10 @@ jobs:
 
       - name: Insert Table into README
         run: |
-          # Create the header for the charts section
           echo "## Available Helm Charts" > charts-section.txt
           echo "" >> charts-section.txt
           cat charts-table.txt >> charts-section.txt
           
-          # Insert the charts section before the "How to Add This Repository" section
           awk '/## How to Add This Repository/{flag=1; if(!flag2){print ""; system("cat charts-section.txt"); flag2=1}} 1' README.md > README.tmp && mv README.tmp README.md
 
       - name: Commit changes
