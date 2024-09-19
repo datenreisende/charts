@@ -37,7 +37,6 @@ jobs:
         run: |
           helm dependency update charts/helmlet
 
-      # Package and publish helmlet chart to GHCR
       - name: Package helmlet Chart
         run: |
           mkdir -p .cr-release-packages
@@ -54,7 +53,6 @@ jobs:
         run: |
           helm push .cr-release-packages/helmlet-*.tgz oci://ghcr.io/datenreisende/charts
 
-      # Update gh-pages branch with helmlet chart
       - name: Publish helmlet Chart to GitHub Pages
         uses: helm/chart-releaser-action@v1.5.0
         with:
@@ -86,7 +84,6 @@ jobs:
           helm repo add datenreisende https://datenreisende.github.io/charts/
           helm repo update
 
-      # Update dependencies for all other charts
       - name: Update All Other Chart Dependencies
         run: |
           for d in charts/* ; do
@@ -95,7 +92,6 @@ jobs:
             fi
           done
 
-      # Package all other charts
       - name: Generate charts
         run: |
           mkdir -p .cr-release-packages
@@ -150,7 +146,6 @@ jobs:
             helm dependency update "$d"
           done
 
-      # Publish charts to gh-pages branch
       - name: Publish charts to GitHub Pages
         uses: helm/chart-releaser-action@v1.5.0
         with:
