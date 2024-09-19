@@ -1,8 +1,13 @@
 apiVersion: v2
 name: "uptime-kuma"
-description: A Helm chart for Kubernetes
+description: A Helm chart for deploying Uptime Kuma using the helmlet library chart.
 home: https://datenreisende.github.io/charts/uptime-kuma/
 icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg
 type: application
-version: 0.1.6
+version: 0.1.7
 appVersion: "1.23.13"
+
+dependencies:
+  - name: helmlet
+    version: 0.1.5 
+    repository: "https://datenreisende.github.io/charts/"

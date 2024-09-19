@@ -1,17 +1,20 @@
 {{- define "helmlet.pvc" -}}
-{{- if .Values.persistentVolumeClaim.enabled }}
+---
+{{- if .Values.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "common.names.fullname" . }}
+  name: {{ include "helmlet.fullname" . }}-{{ .Values.persistence.volumeName }}
   labels:
-    {{- include "common.labels.standard" . | nindent 4 }}
+    app: {{ include "helmlet.name" . }}
 spec:
   accessModes:
-    {{- toYaml .Values.persistentVolumeClaim.accessModes | nindent 4 }}
+    - {{ .Values.persistence.accessMode }}
   resources:
     requests:
-      storage: {{ .Values.persistentVolumeClaim.size }}
-  storageClassName: {{ .Values.persistentVolumeClaim.storageClass }}
+      storage: {{ .Values.persistence.size }}
+  {{- if .Values.persistence.storageClass | default "" }}
+  storageClassName: {{ .Values.persistence.storageClass | default "default" }}
+  {{- end }}
 {{- end }}
 {{- end }}
