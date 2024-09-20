@@ -4,10 +4,10 @@ description: A Helm chart for deploying Uptime Kuma using the helmlet library ch
 home: https://datenreisende.github.io/charts/uptime-kuma/
 icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg
 type: application
-version: 0.1.8
+version: 0.1.9
 appVersion: "1.23.13"
 
 dependencies:
   - name: helmlet
-    version: 0.1.6
+    version: 0.1.7
     repository: "https://datenreisende.github.io/library-charts/"
