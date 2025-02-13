@@ -5,7 +5,8 @@ replicaCount: 1
 image:
   repository: "louislam/uptime-kuma"
   pullPolicy: IfNotPresent
-  tag: "1.23.15-debian"
+  tag: "1.23.16-debian"
+
 
 imagePullSecrets: []
 
