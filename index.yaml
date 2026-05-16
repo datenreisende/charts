@@ -102,6 +102,23 @@ entries:
     version: 0.1.0
   uptime-kuma:
   - apiVersion: v2
+    appVersion: 2.3.2
+    created: "2026-05-16T07:01:12.102325924Z"
+    dependencies:
+    - name: helmlet
+      repository: https://datenreisende.github.io/library-charts/
+      version: 0.1.7
+    description: A Helm chart for deploying Uptime Kuma using the helmlet library
+      chart.
+    digest: 066d43621f241049c8cf05f5a2b33bec383623c4380e091cee398aa2922fff50
+    home: https://datenreisende.github.io/charts/uptime-kuma/
+    icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg
+    name: uptime-kuma
+    type: application
+    urls:
+    - https://github.com/datenreisende/charts/releases/download/uptime-kuma-0.1.14/uptime-kuma-0.1.14.tgz
+    version: 0.1.14
+  - apiVersion: v2
     appVersion: 2.2.1
     created: "2026-03-20T10:36:24.910420438Z"
     dependencies:
@@ -292,4 +309,4 @@ entries:
     urls:
     - https://github.com/datenreisende/charts/releases/download/uptime-kuma-0.1.1/uptime-kuma-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-20T10:36:24.910510406Z"
+generated: "2026-05-16T07:01:12.102439958Z"
