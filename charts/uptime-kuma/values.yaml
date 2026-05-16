@@ -5,7 +5,7 @@ replicaCount: 1
 image:
   repository: "louislam/uptime-kuma"
   pullPolicy: IfNotPresent
-  tag: "2.2.1"
+  tag: "2.3.2"
 
 
 imagePullSecrets: []
