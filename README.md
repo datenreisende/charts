@@ -9,41 +9,6 @@ Welcome to the official Helm Chart repository for **Datenreisende**! This reposi
 | uptime-kuma | 0.1.14 | application |
 
 
-## Available Helm Charts
-
-| Chart Name | Version | Type |
-|------------|---------|------|
-| uptime-kuma | 0.1.14 | application |
-
-## Available Helm Charts
-
-| Chart Name | Version | Type |
-|------------|---------|------|
-| uptime-kuma | 0.1.14 | application |
-
-## Available Helm Charts
-
-| Chart Name | Version | Type |
-|------------|---------|------|
-| uptime-kuma | 0.1.14 | application |
-
-## Available Helm Charts
-
-| Chart Name | Version | Type |
-|------------|---------|------|
-| uptime-kuma | 0.1.14 | application |
-
-## Available Helm Charts
-
-| Chart Name | Version | Type |
-|------------|---------|------|
-| uptime-kuma | 0.1.14 | application |
-
-## Available Helm Charts
-
-| Chart Name | Version | Type |
-|------------|---------|------|
-| uptime-kuma | 0.1.14 | application |
 ## How to Add This Repository
 To add this Helm repository to your local Helm client, you have two options:
 
@@ -71,7 +36,7 @@ Both methods are supported, and you can choose the one that best fits your needs
 ## Installing Charts
 Installing Charts
 
-Once you’ve added the repository or chosen the OCI method, you can install any of the available charts.
+Once you've added the repository or chosen the OCI method, you can install any of the available charts.
 
 For example, to install the my-chart chart using the traditional Helm repository method:
 
@@ -80,7 +45,7 @@ helm install my-release datenreisende/my-chart
 ```
 Replace my-release with the name you want to give your release, and my-chart with the chart you want to install.
 
-If you’re using the OCI method, you can install a chart as follows:
+If you're using the OCI method, you can install a chart as follows:
 
 ```bash
 helm install my-release oci://ghcr.io/datenreisende/charts/my-chart
@@ -94,4 +59,3 @@ If you would like to contribute to this repository, feel free to submit a pull r
 ## License
 
 This repository is licensed under the MIT License. See the LICENSE file for more details.
-
