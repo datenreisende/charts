@@ -106,34 +106,28 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Remove existing Helm Charts Table
+      - name: Update Helm Charts Table in README
         run: |
-          # Remove the existing table by deleting lines between "## Available Helm Charts" and the next section
-          awk '/## Available Helm Charts/{flag=1} /## /{flag=0} !flag' README.md > README.tmp && mv README.tmp README.md
+          # Generate new table
+          {
+            echo "## Available Helm Charts"
+            echo ""
+            echo "| Chart Name | Version | Type |"
+            echo "|------------|---------|------|"
+            for d in charts/* ; do
+              chart_name=$(basename "$d")
+              chart_version=$(helm show chart "$d" | grep '^version:' | awk '{print $2}')
+              chart_type=$(helm show chart "$d" | grep '^type:' | awk '{print $2}')
+              [ -z "$chart_type" ] && chart_type="application"
+              echo "| $chart_name | $chart_version | $chart_type |"
+            done
+            echo ""
+          } > charts-section.txt
 
-      - name: Generate Helm Charts Table
-        run: |
-          echo "| Chart Name | Version | Type |" > charts-table.txt
-          echo "|------------|---------|------|" >> charts-table.txt
-          for d in charts/* ; do
-            chart_name=$(basename "$d")
-            chart_version=$(helm show chart "$d" | grep '^version:' | awk '{print $2}')
-            chart_type=$(helm show chart "$d" | grep '^type:' | awk '{print $2}')
-            if [ -z "$chart_type" ]; then
-              chart_type="Application" # Default type if not specified
-            fi
-            echo "| $chart_name | $chart_version | $chart_type |" >> charts-table.txt
-          done
-
-      - name: Insert Table into README
-        run: |
-          # Create the header for the charts section
-          echo "## Available Helm Charts" > charts-section.txt
-          echo "" >> charts-section.txt
-          cat charts-table.txt >> charts-section.txt
-          
-          # Insert the charts section before the "How to Add This Repository" section
-          awk '/## How to Add This Repository/{flag=1; if(!flag2){print ""; system("cat charts-section.txt"); flag2=1}} 1' README.md > README.tmp && mv README.tmp README.md
+          # Remove existing charts section, then insert fresh one before "## How to Add"
+          awk '/## Available Helm Charts/{skip=1} /## How to Add This Repository/{skip=0} !skip' README.md > README.tmp
+          awk '/## How to Add This Repository/{system("cat charts-section.txt")} 1' README.tmp > README.md
+          rm README.tmp charts-section.txt
 
       - name: Commit changes
         run: |
