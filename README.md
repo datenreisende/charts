@@ -2,17 +2,12 @@
 
 Welcome to the official Helm Chart repository for **Datenreisende**! This repository contains a collection of Helm charts that I use in my HomeLab. These charts are designed to simplify the deployment of various services and applications.
 
-
-## Available Helm Charts
-
-
-
-
 ## Available Helm Charts
 
 | Chart Name | Version | Type |
 |------------|---------|------|
-| uptime-kuma | 0.1.13 | application |
+| uptime-kuma | 0.1.14 | application |
+
 
 ## Available Helm Charts
 
