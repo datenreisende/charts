@@ -5,6 +5,7 @@ home: https://datenreisende.github.io/charts/uptime-kuma/
 icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.svg
 type: application
 version: 0.1.14
+# renovate: image=louislam/uptime-kuma
 appVersion: "2.3.2"
 
 dependencies:
